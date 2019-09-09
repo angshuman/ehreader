@@ -1,0 +1,16 @@
+{
+    "rules": {
+        "arrow-return-shorthand": [
+            true,
+            "multiline"
+        ],
+        "no-angle-bracket-type-assertion": true,
+        "object-literal-shorthand": true,
+        "trailing-comma": [
+            true,
+            {
+                "singleline": "never"
+            }
+        ]
+    }
+}

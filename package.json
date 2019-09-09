@@ -1,0 +1,33 @@
+{
+  "name": "ehreader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/event-hubs": "1.0.8",
+    "chalk": "^2.4.2",
+    "yargs": "^13.2.4"
+  },
+  "bin": {
+    "ehreader": "./dist/index.js"
+  },
+  "devDependencies": {
+    "@types/async-lock": "^1.1.1",
+    "@types/chalk": "^2.2.0",
+    "@types/yargs": "^13.0.0",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  },
+  "scripts": {
+    "lint": "tslint --project tsconfig.json --fix",
+    "prebuild": "npm run lint",
+    "build": "tsc && npm run config",
+    "watch": "tsc -w",
+    "prestart": "npm run build",
+    "start": "node ./dist/index.js",
+    "prepublish": "npm run build",
+    "config": "cp config.json dist"
+  }
+}

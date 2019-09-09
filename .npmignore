@@ -1,0 +1,18 @@
+# Modules
+node_modules/
+
+# Unnecessary built files
+coverage/
+.*/
+*.map
+*.tgz
+*.log
+
+# Source files
+*.ts
+!*.d.ts
+*.json
+!package.json
+
+# Test files
+*.spec.*

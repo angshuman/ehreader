@@ -1,33 +1,44 @@
 {
   "name": "ehreader",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "description": "Command Line Reader for Azure Event Hubs",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "link": "npm link",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angshuman/ehreader.git"
+  },
+  "keywords": [
+    "EventHub",
+    "Azure\u001b[D\u001b[D\u001b[D\u001b[D\u001b[DEventHubs",
+    "Azure"
+  ],
+  "author": "sendtoansu@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angshuman/ehreader/issues"
+  },
+  "homepage": "https://github.com/angshuman/ehreader#readme",
   "dependencies": {
-    "@azure/event-hubs": "1.0.8",
+    "@azure/event-hubs": "^2.1.1",
     "chalk": "^2.4.2",
-    "yargs": "^13.2.4"
+    "configstore": "^5.0.0",
+    "inquirer": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/configstore": "^4.0.0",
+    "@types/inquirer": "^6.5.0",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
   },
   "bin": {
     "ehreader": "./dist/index.js"
-  },
-  "devDependencies": {
-    "@types/async-lock": "^1.1.1",
-    "@types/chalk": "^2.2.0",
-    "@types/yargs": "^13.0.0",
-    "tslint": "^5.16.0",
-    "typescript": "^3.4.5"
-  },
-  "scripts": {
-    "lint": "tslint --project tsconfig.json --fix",
-    "prebuild": "npm run lint",
-    "build": "tsc && npm run config",
-    "watch": "tsc -w",
-    "prestart": "npm run build",
-    "start": "node ./dist/index.js",
-    "prepublish": "npm run build",
-    "config": "cp config.json dist"
   }
 }

@@ -1,56 +1,66 @@
 #!/usr/bin/env node
 
-import * as yargs from 'yargs';
-import * as fs from 'fs';
-import * as path from 'path';
-
+import * as inq from 'inquirer';
+import * as configstore from 'configstore';
 import { reader } from './reader';
 
-const chalk = require('chalk');
+const store = new configstore('ehreader', {});
+const connection = store.get('connection');
 
-const argv = yargs
-    .usage('Usage: $0 [options]')
-    .default('partition', 'all')
-    .alias('p', 'partition')
-    .default('days', 0)
-    .alias('d', 'days')
-    .default('hours', 0)
-    .alias('h', 'hours')
-    .default('minutes', 0)
-    .alias('m', 'minutes')
-    .default('seconds', 0)
-    .alias('s', 'seconds')
-    .default('otuput', '')
-    .alias('c', 'config')
-    .demandOption('config')
-    .argv;
-
-const filePath = path.join(process.cwd(), argv.config as string);
-
-if (!fs.existsSync(filePath)) {
-    console.log(chalk.yellow('Config file not found. Creatig empty'));
-    const emptyConfig = {
-        connection: '',
-        hubname: ''
-    };
-    fs.writeFileSync(filePath, JSON.stringify(emptyConfig, null, 2));
-    process.exit(1);
-}
-const configFile = fs.readFileSync(filePath, 'utf-8');
-const config = JSON.parse(configFile);
-
-run(argv, config).then(()=> {
-    console.log(chalk.green('Done.'));
-});
-
-async function run(argv : any, config: any) {
-    if (config.connection) {
-        await reader(argv, config);
-    } else {
-        console.log(chalk.red('Invalid configuration'));
-        process.exit(1);
+const questions = [
+    {
+        type: 'input',
+        name: 'connection',
+        default: connection,
+        message: 'Event Hub Connection String'
+    },
+    {
+        type: 'input',
+        name: 'partitions',
+        default: 'all',
+        message: 'Partitions'
+    },
+    {
+        type: 'input',
+        name: 'consumerGroup',
+        default: '$Default',
+        message: 'Consumer Group'
+    },
+    {
+        type: 'list',
+        name: 'position',
+        message: 'From position',
+        choices: ['start', 'end', 'offset', 'sequence']
+    },
+    {
+        type: 'input',
+        name: 'offset',
+        message: 'Offset Value',
+        default: '-1',
+        when: function (answers: any) {
+            return answers.position === 'offset';
+        }
+    },
+    {
+        type: 'input',
+        name: 'sequence',
+        message: 'Sequence Value',
+        default: '0',
+        when: function (answers: any) {
+            return answers.position === 'sequence';
+        }
     }
+];
+
+async function run(): Promise<void> {
+    const answers = await inq.prompt(questions);
+
+    store.set('connection', answers.connection);
+
+    await reader(answers);
 }
+
+run();
 
 
 

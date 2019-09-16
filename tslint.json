@@ -5,7 +5,6 @@
             "multiline"
         ],
         "no-angle-bracket-type-assertion": true,
-        "object-literal-shorthand": true,
         "trailing-comma": [
             true,
             {

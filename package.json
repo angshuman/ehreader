@@ -1,6 +1,6 @@
 {
   "name": "ehreader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command Line Reader for Azure Event Hubs",
   "main": "dist/index.js",
   "scripts": {

@@ -7,6 +7,8 @@ export async function reader(config: any): Promise<any> {
     const client = EventHubClient.createFromConnectionString(config.connection);
     const partitions = await client.getPartitionIds();
 
+    console.log(chalk.green(`connected. total partitions: ${partitions.length}`));
+
     let position: EventPosition;
     switch (config.position) {
         case 'start':
